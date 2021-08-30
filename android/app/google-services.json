@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "555464384230",
+    "project_id": "bcnt-46c20",
+    "storage_bucket": "bcnt-46c20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555464384230:android:9a2771201b903db9a5e527",
+        "android_client_info": {
+          "package_name": "com.bcnt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "555464384230-m0b7t50j0f0lptf9j9vb251n716j7thc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bcnt",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "555464384230-bane527dv3e7ak68cvbg8fku1gt4oj3g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnqx-MlVhl9hwRQuVnR3dhSlV40fySy0s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "555464384230-bane527dv3e7ak68cvbg8fku1gt4oj3g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
