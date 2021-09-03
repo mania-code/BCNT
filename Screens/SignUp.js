@@ -20,50 +20,51 @@ import {Picker} from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {withTheme, ActivityIndicator} from 'react-native-paper';
-// import { ICountry, IState, ICity } from 'country-state-city'
 import countrylist from '../Assets/countryies.json';
 import stateslist from '../Assets/state.json';
-// import city from '../Assets/cities.json';
+import DeviceInfo from 'react-native-device-info';
+import NetInfo from "@react-native-community/netinfo";
+
 
 const vh = Dimensions.get('window').height / 100;
 const vw = Dimensions.get('window').width / 100;
 
 const SignUp = ({navigation, theme}) => {
   useEffect(() => {
-    
     const getData = async () => {
       try {
         const value = await AsyncStorage.getItem('linkSponsor');
         if (value !== null) {
-          setreferal(value)
-         
-          axios.get(
-            'https://bcnt.gheeserver.xyz/php_scripts/sponsor_name.php?id=' + value,
-          )
-          .then(response => {
-            console.log(response.data);
-            if (
-              response.data == '' ||
-              response.data == 'Empty entry'
-            ) {
-              setspname('User Not Found');
-            } else {
-              setspname('Sponsor Name - ' + response.data);
-            }
-          })
-          .catch(error => {
-            Alert.alert('Server Error -', error.message);
-          });
+          setreferal(value);
+
+          axios
+            .get(
+              'https://bcnt.gheeserver.xyz/php_scripts/sponsor_name.php?id=' +
+                value,
+            )
+            .then(response => {
+              console.log(response.data);
+              if (response.data == '' || response.data == 'Empty entry') {
+                setspname('User Not Found');
+              } else {
+                setspname('Sponsor Name - ' + response.data);
+              }
+            })
+            .catch(error => {
+              Alert.alert('Server Error -', error.message);
+            });
         }
       } catch (e) {
         console.log('no sponsor aval' + e);
       }
     };
 
-    getData()
+    getData();
 
     return () => {};
   }, []);
+
+  
 
   const [name, setname] = useState('');
   const [userId, setuserId] = useState('');
@@ -184,7 +185,7 @@ const SignUp = ({navigation, theme}) => {
                 };
 
                 storeData(userOjbect);
-                
+
                 navigation.replace('Drower');
                 Snackbar.show({
                   text: 'Welcome ' + name,
@@ -208,9 +209,31 @@ const SignUp = ({navigation, theme}) => {
           setLoad(false);
         }
       };
-      auth();
+
+      let kaka = DeviceInfo.getUniqueId()
+      
+      deviceVal(kaka, userId, auth)
+     
+      
     }
   };
+
+  const deviceVal = (unkid,user,auth) => {
+    console.log('kaka - ' + unkid);
+    console.log('baka - ' + user);
+    axios.get('https://bcnt.gheeserver.xyz/php_scripts/deviceValidation.php?user='+ user +'&imei='+ unkid)
+    .then((resp)=>{
+
+      if(resp.data == 'available')
+      {
+        auth()
+      }else
+      {
+        Alert.alert('Device Error -', resp.data)
+      }
+
+    })
+  }
 
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
@@ -239,7 +262,6 @@ const SignUp = ({navigation, theme}) => {
               </Text>
               <TextInput
                 style={styles.inputText}
-                
                 placeholder=" Enter Referral Id"
                 placeholderTextColor="#777"
                 autoCapitalize="characters"
@@ -267,8 +289,7 @@ const SignUp = ({navigation, theme}) => {
                       Alert.alert('Server Error -', error.message);
                     });
                 }}
-                value={referal}
-              ></TextInput>
+                value={referal}></TextInput>
               <Text
                 style={{
                   color: '#fff',
