@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Image,
@@ -29,6 +29,42 @@ const vh = Dimensions.get('window').height / 100;
 const vw = Dimensions.get('window').width / 100;
 
 const SignUp = ({navigation, theme}) => {
+  useEffect(() => {
+    
+    const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('linkSponsor');
+        if (value !== null) {
+          setreferal(value)
+         
+          axios.get(
+            'https://bcnt.gheeserver.xyz/php_scripts/sponsor_name.php?id=' + value,
+          )
+          .then(response => {
+            console.log(response.data);
+            if (
+              response.data == '' ||
+              response.data == 'Empty entry'
+            ) {
+              setspname('User Not Found');
+            } else {
+              setspname('Sponsor Name - ' + response.data);
+            }
+          })
+          .catch(error => {
+            Alert.alert('Server Error -', error.message);
+          });
+        }
+      } catch (e) {
+        console.log('no sponsor aval' + e);
+      }
+    };
+
+    getData()
+
+    return () => {};
+  }, []);
+
   const [name, setname] = useState('');
   const [userId, setuserId] = useState('');
   const [password, setpassword] = useState('');
@@ -45,11 +81,10 @@ const SignUp = ({navigation, theme}) => {
 
   const [loading, setLoad] = useState(false);
 
-  const cc = '#f00'
+  const cc = '#f00';
 
   const {colors} = theme;
   // console.log(route.params.uid);
-
 
   const validate2 = email => {
     const expression =
@@ -132,7 +167,6 @@ const SignUp = ({navigation, theme}) => {
             .then(function (response) {
               let rstring = response.data;
               if (rstring.result == 'USER Registred Successfuly') {
-
                 const userOjbect = {
                   user_id: userId,
                   user_name: name,
@@ -150,6 +184,7 @@ const SignUp = ({navigation, theme}) => {
                 };
 
                 storeData(userOjbect);
+                
                 navigation.replace('Drower');
                 Snackbar.show({
                   text: 'Welcome ' + name,
@@ -204,6 +239,7 @@ const SignUp = ({navigation, theme}) => {
               </Text>
               <TextInput
                 style={styles.inputText}
+                
                 placeholder=" Enter Referral Id"
                 placeholderTextColor="#777"
                 autoCapitalize="characters"
@@ -217,19 +253,21 @@ const SignUp = ({navigation, theme}) => {
                         x.nativeEvent.text,
                     )
                     .then(response => {
-
-                      console.log('b-'+ response.data +'-a');
-                      if(response.data == '' || response.data == 'Empty entry'){
-                        setspname('User Not Found')
-                      }else{
-                      setspname('Sponsor Name - ' + response.data);
+                      console.log(response.data);
+                      if (
+                        response.data == '' ||
+                        response.data == 'Empty entry'
+                      ) {
+                        setspname('User Not Found');
+                      } else {
+                        setspname('Sponsor Name - ' + response.data);
                       }
                     })
                     .catch(error => {
                       Alert.alert('Server Error -', error.message);
                     });
                 }}
-                // value={referal}
+                value={referal}
               ></TextInput>
               <Text
                 style={{
@@ -355,7 +393,10 @@ const SignUp = ({navigation, theme}) => {
                 letters only*
               </Text>
               <TextInput
-                style={[styles.inputText , {borderWidth:2, borderColor:uidBorder,  }]}
+                style={[
+                  styles.inputText,
+                  {borderWidth: 2, borderColor: uidBorder},
+                ]}
                 placeholder=" Enter UserID 10 letters only*"
                 placeholderTextColor="#777"
                 maxLength={10}
@@ -383,7 +424,14 @@ const SignUp = ({navigation, theme}) => {
                     });
                 }}
                 value={userId}></TextInput>
-              <Text style={{color: '#fff', marginRight: 5, fontSize: 12, marginLeft:20,marginVertical:5}}>
+              <Text
+                style={{
+                  color: '#fff',
+                  marginRight: 5,
+                  fontSize: 12,
+                  marginLeft: 20,
+                  marginVertical: 5,
+                }}>
                 {uidAval}
               </Text>
             </View>

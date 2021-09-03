@@ -79,7 +79,7 @@ const Request = ({navigation, theme}) => {
   };
 
   const sendRequest = async (add, amt) => {
-    console.log('inside value is ' + add);
+    // console.log('inside value is ' + add);
     let rem = amt % 500;
 
     if (TokenAdd.length === 0 || Amount <= 0 || Amount.length === 0) {

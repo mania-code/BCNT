@@ -78,7 +78,7 @@ export default function Goal(props) {
         Arr[i] == 0 ? setProgressValue(0) : setProgressValue(Arr[i]/reqts)
  
       } else {
-        console.log('joD');
+  
         setDaysLeft('Unlimited')
         setReqTeamSize(reqtswd - Arr[i])
         setGoalSize(reqtswd)

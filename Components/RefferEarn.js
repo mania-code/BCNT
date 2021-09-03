@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput, Dimensions, Image, Alert } from 'rea
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Share from 'react-native-share';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {BackTitalBar} from '../my components/TitalBar';
 
 const vh = Dimensions.get('window').height / 100;
@@ -11,11 +12,50 @@ const vw = Dimensions.get('window').width / 100;
 
 const RefferEarn = ({ navigation }) => {
 
-    const reffer = () => {
+
+    const [user_Id, setUser_id] = useState('')
+    const [linka, setlinka] = useState('')
+
+    
+    useEffect(() => { getData() }, []);
+
+    async function buildLink(x) {
+        const link = await dynamicLinks().buildLink({
+        //   link: '/promo?invitedBy=' + x,
+          link: 'https://www.bcnt.page.link/promo?invitedBy=' + x,
+          // domainUriPrefix is created in your Firebase console
+          domainUriPrefix: 'https://bcnt.page.link/testa',
+          // optional setup which updates Firebase analytics campaign
+      
+        }).then((link) =>
+        {
+            setlinka(link)
+            
+            const obj = {
+                // url: message,
+                message: link + '\n\nUse my referral code - "'+  user_Id +'" to get 100 BCNT Coins absolutely free , checkout this awsome application to earn crypto income', 
+            }
+    
+            Share.open(obj)
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    err && console.log(err);
+                });
+        })
+      }
+
+    const reffer = async () => {
+
+        let bb = await buildLink(user_Id)
+        // let shareLink = buildLink(user_Id)
+
+        console.log('sasa '+ bb);
 
         const obj = {
             // url: message,
-            message: 'Use my referral code - "'+  user_Id +'" to get 100 BCNT Coins absolutely free , checkout this awsome application to earn crypto income', 
+            message: bb + 'Use my referral code - "'+  user_Id +'" to get 100 BCNT Coins absolutely free , checkout this awsome application to earn crypto income', 
         }
 
         Share.open(obj)
@@ -27,9 +67,6 @@ const RefferEarn = ({ navigation }) => {
             });
     }
 
-    const [user_Id, setUser_id] = useState('')
-
-    useEffect(() => { getData() }, []);
 
     const getData = async () => {
         try {
@@ -60,7 +97,7 @@ const RefferEarn = ({ navigation }) => {
                     <View style={styles.shereBox}>
                         <Text style={styles.shereBoxText}>{user_Id}</Text>
                         <Icon name='share' size={30} color='#34465d' 
-                        onPress={() => reffer()}></Icon>
+                        onPress={() => buildLink(user_Id)}></Icon>
                     </View>
                 </View>
         </View>
