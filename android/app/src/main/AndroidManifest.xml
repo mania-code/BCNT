@@ -27,8 +27,10 @@
           <data android:scheme="app"
           android:host="deeplink" />  
           <data android:scheme="https" android:host="www.bcnt.com" />
+          <data android:scheme="https" android:host="www.com.bcnt" />
           <data android:scheme="https" android:host="bcnt.page.link/promo" />
           <data android:scheme="http" android:host="bcnt.page.link" />
+          <data android:scheme="https" android:host="bcnt.page.link" />
         </intent-filter>
       </activity>
     </application>

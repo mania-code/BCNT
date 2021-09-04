@@ -22,9 +22,12 @@ const RefferEarn = ({ navigation }) => {
     async function buildLink(x) {
         const link = await dynamicLinks().buildLink({
         //   link: '/promo?invitedBy=' + x,
-          link: 'https://www.bcnt.page.link/promo?invitedBy=' + x,
+          link: 'https://com.bcnt?invitedBy=' + x,
+          android:{
+              packageName: 'com.bcnt'
+          },
           // domainUriPrefix is created in your Firebase console
-          domainUriPrefix: 'https://bcnt.page.link/testa',
+          domainUriPrefix: 'https://bcnt.page.link',
           // optional setup which updates Firebase analytics campaign
       
         }).then((link) =>
