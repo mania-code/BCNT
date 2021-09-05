@@ -98,6 +98,7 @@ const SignUp = ({navigation, theme}) => {
   const validate = () => {
     if (
       userId.length == 0 ||
+      referal.length == 0 ||
       userId.length > 10 ||
       password.length == 0 ||
       cpassword.length == 0 ||
@@ -138,7 +139,16 @@ const SignUp = ({navigation, theme}) => {
           backgroundColor: colors.secondary,
           textColor: '#FFF',
         });
-      } else {
+      } else if (referal.length == 0)
+      {
+        Snackbar.show({
+          text: 'Please! Enter a Valid Referral ',
+          duration: Snackbar.LENGTH_LONG,
+          backgroundColor: colors.secondary,
+          textColor: '#FFF',
+        });
+      } 
+      else {
         Snackbar.show({
           text: 'please fill details!!',
           duration: Snackbar.LENGTH_LONG,
@@ -147,7 +157,7 @@ const SignUp = ({navigation, theme}) => {
         });
       }
     } else {
-      const auth = async () => {
+      const auth = async (unkid) => {
         try {
           setLoad(true);
           axios
@@ -163,6 +173,7 @@ const SignUp = ({navigation, theme}) => {
                 country: countryCode,
                 state: stateCode,
                 city: '00',
+                imei: unkid,
               },
             })
             .then(function (response) {
@@ -219,14 +230,13 @@ const SignUp = ({navigation, theme}) => {
   };
 
   const deviceVal = (unkid,user,auth) => {
-    console.log('kaka - ' + unkid);
-    console.log('baka - ' + user);
+
     axios.get('https://bcnt.gheeserver.xyz/php_scripts/deviceValidation.php?user='+ user +'&imei='+ unkid)
     .then((resp)=>{
 
       if(resp.data == 'available')
       {
-        auth()
+        auth(unkid)
       }else
       {
         Alert.alert('Device Error -', resp.data)

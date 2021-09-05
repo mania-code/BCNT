@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, Dimensions, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Dimensions, Image, Alert, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Share from 'react-native-share';
@@ -89,7 +89,7 @@ const RefferEarn = ({ navigation }) => {
     }
 
     return (
-        <View>
+        <ScrollView>
                 <BackTitalBar name="Level Team" nav={navigation}  />
                 <Image source={require('../Assets/teamPlan.jpeg')} style={{ width: vw * 90, height: vw * 144, marginVertical: 20, alignSelf: 'center' }} />
 
@@ -103,7 +103,7 @@ const RefferEarn = ({ navigation }) => {
                         onPress={() => buildLink(user_Id)}></Icon>
                     </View>
                 </View>
-        </View>
+        </ScrollView>
     )
 }
 
