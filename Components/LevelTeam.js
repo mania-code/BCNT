@@ -25,6 +25,7 @@ const LevelTeam = ({navigation}) => {
   const [loading, setLoaded] = useState(true);
   const [datalist, setDataList] = useState([]);
   const [userid, setuid] = useState('');
+  const [teamSize , setTeamSize] = useState(0)
   const [lab, setlab] = useState(0);
 
   useEffect(() => {
@@ -54,7 +55,7 @@ const LevelTeam = ({navigation}) => {
     if (x != 0) {
       await axios
         .get(
-          'https://bcnt.gheeserver.xyz/php_scripts/levelTeam.php?userId=' +
+          'https://bcnt.gheeserver.xyz/php_scripts/version6/levelTeamV6.php?userId=' +
             userid +
             '&level=' +
             x,
@@ -62,7 +63,9 @@ const LevelTeam = ({navigation}) => {
         .then(function (response) {
           var {data} = response;
           console.log(data);
-          setDataList(data);
+          setTeamSize(data[0]);
+          setDataList(data[1]);
+          console.log('papa' + data[1]);
         })
         .catch(err => {
           console.log(err);
@@ -136,7 +139,7 @@ const LevelTeam = ({navigation}) => {
         </View>
 
         <Card style={{marginVertical: 10}}>
-          <Card.Title title={'Team Size  - ' + datalist.length} />
+          <Card.Title title={'Team Size  - ' + teamSize} />
         </Card>
 
         {loading ? (

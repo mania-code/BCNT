@@ -106,6 +106,7 @@ const SignUp = ({navigation, theme}) => {
       mobile.length == 0 ||
       email.length == 0 ||
       mobile.length < 10 ||
+      userId.indexOf(' ') >= 0 ||
       stateCode == null ||
       countryCode == null ||
       password != cpassword ||
@@ -143,6 +144,14 @@ const SignUp = ({navigation, theme}) => {
       {
         Snackbar.show({
           text: 'Please! Enter a Valid Referral ',
+          duration: Snackbar.LENGTH_LONG,
+          backgroundColor: colors.secondary,
+          textColor: '#FFF',
+        });
+      } else if (userId.indexOf(' ') >= 0)
+      {
+        Snackbar.show({
+          text: 'User Id should not contain Space',
           duration: Snackbar.LENGTH_LONG,
           backgroundColor: colors.secondary,
           textColor: '#FFF',

@@ -50,15 +50,15 @@ const Income = ({navigation}) => {
 
   const fetchIt = x => {
     axios
-      .get('https://bcnt.gheeserver.xyz/php_scripts/income.php?userId=' + x)
+      .get('https://bcnt.gheeserver.xyz/php_scripts/version6/incomeV6.php?userId=' + x)
       .then(function (response) {
         const {data} = response;
-        setDataList(data);
-        let tempSum = 0;
-        data.forEach(x => {
-            tempSum = parseInt(tempSum) + parseInt(x.credit)
-        });
-        setsum(tempSum);
+        setDataList(data[1]);
+        // let tempSum = 0;
+        // data.forEach(x => {
+        //     tempSum = parseInt(tempSum) + parseInt(x.credit)
+        // });
+        setsum(data[0]);
       })
       .catch(function (error) {
         Alert.alert('Network Issue ' + error);
@@ -71,7 +71,7 @@ const Income = ({navigation}) => {
 
   const ListCompoent = () => {
     if (datalist.length == 0) {
-      return <H1 style={{margin: 20}}>Nothing to show!</H1>;
+      return <Text style={{margin: 20, fontSize:xlargeText}}>Nothing to show!</Text>;
     } else {
       return (
         <View style={{marginTop: 20}}>
@@ -81,6 +81,13 @@ const Income = ({navigation}) => {
             let sign = Math.sign(amt);
             let color = '#6DAED4';
             if (sign < 0) {
+              color = 'tomato';
+            }
+
+            // color = for reward
+            let lable = x.lable
+            if(lable == 'Reward Income')
+            {
               color = 'tomato';
             }
 

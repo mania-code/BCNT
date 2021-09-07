@@ -21,16 +21,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import Snackbar from 'react-native-snackbar';
 
-var TokenAdd = '';
-
+// var TokenAdd = '';
 
 const Request = ({navigation, theme}) => {
-  const [Amount, setAmount] = useState('')
+  const [Amount, setAmount] = useState('');
   let nonStateId;
+  const [TokenAdd, setTokenAdd] = useState('')
   const [id, setId] = useState('');
   const [avlCoin, setavlCoin] = useState('000');
-  const [loading, setLoad] = useState(false);
-
+  const [loading, setLoad] = useState(true);
+  const [currAdd, setcurrAdd] = useState('');
+  const [editables, seteditable] = useState(true);
   const {colors} = theme;
 
   useEffect(() => {
@@ -66,15 +67,21 @@ const Request = ({navigation, theme}) => {
         const rarr = response.data;
 
         setId(rarr[0]);
-
+        setcurrAdd(rarr[8]);
         setavlCoin(rarr[5]);
+        console.log(rarr[8]);
+        if (rarr[8] != 'noAddress') {
+          seteditable(false);
+          setTokenAdd(rarr[8]);
+          console.log(rarr[8]);
+        }
       })
       .catch(function (error) {
         alert('Network Issue ' + error);
         console.log(error);
       })
-      .then(function () {
-        //
+      .finally(function () {
+        setLoad(false)
       });
   };
 
@@ -105,7 +112,7 @@ const Request = ({navigation, theme}) => {
           textColor: '#FFF',
         });
       } else {
-        amt = amt*0.85
+        amt = amt * 0.85;
         await axios
           .get(
             'https://bcnt.gheeserver.xyz/php_scripts/request.php?userId=' +
@@ -125,6 +132,14 @@ const Request = ({navigation, theme}) => {
                 backgroundColor: colors.secondary,
                 textColor: '#FFF',
               });
+              if (editables == true) {
+                axios.get(
+                  'https://bcnt.gheeserver.xyz/php_scripts/addAddress.php?userId=' +
+                    id +
+                    '&newAdd=' +
+                    add,
+                );
+              }
               navigation.goBack();
             } else {
               console.log(rstring.result);
@@ -141,6 +156,31 @@ const Request = ({navigation, theme}) => {
     }
   };
 
+  const validate = (TokenAdd, Amount) => {
+  let fist =  TokenAdd.charAt(0)
+  if (fist == 'T') {
+    if (TokenAdd.length == 34) {
+      sendRequest(TokenAdd, Amount)
+    }else{
+      console.log('lll' + TokenAdd.length);
+    }
+  }else{
+    Alert.alert('Invalid Address' , 'Please enter a valid address')
+  }
+  }
+  
+
+  if (loading) {
+    return(
+      <ActivityIndicator
+      colors={'tomato'}
+      animating={true}
+      size="large"
+      style={{marginTop:250}}
+      ></ActivityIndicator>
+    );
+  }
+
   return (
     <View style={{flex: 1}}>
       <BackTitalBar name="Withdrawal" nav={navigation} />
@@ -151,19 +191,24 @@ const Request = ({navigation, theme}) => {
         <Card>
           <Card.Title title="Withdrawal Request" />
           <Card.Content>
+            <Text> {currAdd != 'noAddress' && 'Saved -'+currAdd} </Text>
             <TextInput
               label="Wallet Address"
+              maxLength={34}
+              // value={currAdd != 'noAddress' && currAdd}
               mode="outlined"
+              editable={editables}
               onChangeText={x => {
-                TokenAdd = x;
+                // setcurrAdd(x)
+                setTokenAdd(x)
+                // TokenAdd = x;
               }}
             />
             <TextInput
               label="Amount"
               mode="outlined"
               onChangeText={amount => {
-                // console.log('the Amounta is - ' + Amounta);
-                Amounta = amount;
+                // Amounta = amount;
                 setAmount(amount);
               }}
             />
@@ -172,7 +217,8 @@ const Request = ({navigation, theme}) => {
             <Button
               style={{width: '40%', marginTop: 10}}
               mode="outlined"
-              onPress={() => sendRequest(TokenAdd, Amount)}>
+              // onPress={() => sendRequest(TokenAdd, Amount)}>
+              onPress={() => validate(TokenAdd, Amount)}>
               <Text style={{fontSize: mlText}}>Submit</Text>
             </Button>
           </Card.Actions>
@@ -183,11 +229,12 @@ const Request = ({navigation, theme}) => {
         </Text>
         <Text
           style={{fontSize: xsmallText, color: colors.secondary, marginTop: 5}}>
-          15% Tranction Fee will be deducted. You will get {Amount*0.85 }
+          15% Tranction Fee will be deducted. You will get {Amount * 0.85}
         </Text>
       </View>
     </View>
   );
+
 };
 
 export default withTheme(Request);
