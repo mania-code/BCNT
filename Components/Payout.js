@@ -78,6 +78,9 @@ const Payout = ({navigation}) => {
       return (
         <View style={{marginTop: 20}}>
           {datalist.map((x, i) => {
+             let amtb = x.amount;
+             let amte = amtb * 0.15;
+             let amt = amtb + amte;
             let stat;
             let colo;
             if (x.status == 'P') {
@@ -96,7 +99,7 @@ const Payout = ({navigation}) => {
                 key={i}>
                 <Text style={styles.moneyText}>{x.cryptoAddress}</Text>
                 <View style={styles.listcomponentUp}>
-                  <Text style={styles.tagText}>{x.amount}</Text>
+                  <Text style={styles.tagText}>{amt}</Text>
                   <Text style={styles.tagText}>{stat}</Text>
                 </View>
                 <View style={styles.listcomponentDown}>

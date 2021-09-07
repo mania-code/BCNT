@@ -76,9 +76,7 @@ const Income = ({navigation}) => {
       return (
         <View style={{marginTop: 20}}>
           {datalist.map((x, i) => {
-            let amtb = x.credit - x.debit;
-            let amte = amtb * 0.15;
-            let amt = amtb + amte;
+            let amt = x.credit - x.debit;
             // setsum(sum + amt)
             let sign = Math.sign(amt);
             let color = '#6DAED4';
