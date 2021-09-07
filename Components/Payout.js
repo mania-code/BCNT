@@ -79,8 +79,9 @@ const Payout = ({navigation}) => {
         <View style={{marginTop: 20}}>
           {datalist.map((x, i) => {
              let amtb = x.amount;
-             let amte = amtb * 0.15;
-             let amt = amtb + amte;
+             let amte = amtb * 1.176470;
+             console.log(Math.ceil(amte));
+             let amt =  parseInt( Math.ceil(amte));
             let stat;
             let colo;
             if (x.status == 'P') {
