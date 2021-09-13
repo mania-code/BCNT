@@ -1,45 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Alert, BackHandler, StyleSheet } from 'react-native';
+import { View, Image, Alert, BackHandler, StyleSheet, Linking } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from "@react-native-community/netinfo";
+import DeviceInfo from 'react-native-device-info';
+import axios from 'axios';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 
 const SplashScreen = ({ navigation }) => {
 
   const [net, setNet] = useState(true)
+  let currentVersion = DeviceInfo.getVersion();
 
-  useEffect(() => {
+  useEffect(async() => {
 
-      // dynamicLinks()
-      //   .getInitialLink()
-      //   .then(link => {
-      //     if (link.url === 'https://www.bcnt.page.link/promo') {
-      //     console.log('fas gye');
-      //     navigation.navigate('SignUp', {uid:'ADMIN-DADA'} )
-      //   }
-      //   }).catch(error => {
-      //     console.log(error);
-      //     setTimeout(() => {
-      //       getData(navigation);
-      //     }, 2000);
-      //   })
-  
+    // BackHandler.addEventListener("hardwareBackPress",  BackHandler.exitApp())
 
     NetInfo.fetch().then(state => {
       if (!state.isConnected) {
         setNet(false)
       }else {
-        // setTimeout(() => {
-        //   getData(navigation);
-        // }, 2000);
+        //
       }
     });
 
-    setTimeout(() => {
-      getData(navigation);
-    }, 2000);
+    await axios.get('https://gheeson.in/bcnt/php_scripts/V7/version_checkV7.php?version=' + currentVersion)
+    .then((response) => {
+      if(response.data == 'Updated App'){
+
+        Alert.alert('Updated App' , 'To Continue please update your App from play store', 
+        [
+          { text: "Update", onPress: () =>  Linking.openURL('https://play.google.com/store/apps/details?id=com.bcnt') },
+          { text: "Exit", onPress: () => BackHandler.exitApp() },
+        ]
+        )
+
+      }else if(response.data == 'go ahead'){
+
+        setTimeout(() => {
+          getData(navigation);
+        }, 2000);
+
+      }else{
+        Alert.alert('Version Error' , 'Plesase Updated your app from playstore')
+      }
+    }).catch(err => {
+      Alert.alert('Version Error' , err)
+    })
+
+    // return () =>
+    //   BackHandler.removeEventListener("hardwareBackPress",  BackHandler.exitApp());
     
-  })
+  }, [])
     
 
   // getData(navigation);

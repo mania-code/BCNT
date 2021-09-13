@@ -12,9 +12,9 @@ const vh = Dimensions.get("window").height / 100;
 const Sidebar = (props) => {
 
     const Support = 'https://wa.me/917600834324?text=Hello';
-    const Privacy = 'https://bcnt.gheeserver.xyz/Assets/Privacy.pdf';
-    const Terms = 'https://bcnt.gheeserver.xyz/Assets/Terms.pdf';
-    const Wpaper = 'https://bcnt.gheeserver.xyz/Assets/BYTE%20CONNECT.pdf';
+    const Privacy = 'https://gheeson.in/bcnt/Assets/Privacy.pdf';
+    const Terms = 'https://gheeson.in/bcnt/Assets/Terms.pdf';
+    const Wpaper = 'https://gheeson.in/bcnt/Assets/BYTE%20CONNECT.pdf';
 
 
     return (

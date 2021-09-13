@@ -45,7 +45,7 @@ const Payout = ({navigation}) => {
   const fetchIt = x => {
     axios
       .get(
-        'https://bcnt.gheeserver.xyz/php_scripts/withdrawHistory.php?userId=' +
+        'https://gheeson.in/bcnt/php_scripts/withdrawHistory.php?userId=' +
           x,
       )
       .then(function (response) {

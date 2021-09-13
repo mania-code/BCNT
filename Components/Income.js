@@ -32,7 +32,11 @@ const Income = ({navigation}) => {
     getData();
   }, []);
 
+  let kaka = ["ayush"];
+  
+
   const getData = async () => {
+    setDataList(["ayush"])
     try {
       const jsonValue = await AsyncStorage.getItem('userData');
       var c = JSON.parse(jsonValue);
@@ -50,7 +54,7 @@ const Income = ({navigation}) => {
 
   const fetchIt = x => {
     axios
-      .get('https://bcnt.gheeserver.xyz/php_scripts/version6/incomeV6.php?userId=' + x)
+      .get('https://gheeson.in/bcnt/php_scripts/V7/incomeV7.php?userId=' + x)
       .then(function (response) {
         const {data} = response;
         setDataList(data[1]);

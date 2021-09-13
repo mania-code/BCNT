@@ -26,6 +26,7 @@ const DirectTeam = ({navigation}) => {
   const [spinning, setspin] = useState(true);
   const [datalist, setDataList] = useState([]);
   const [listLength, setlistLength] = useState(0)
+  const [teamCount , setTeamCount] = useState(0)
 
   useEffect(() => {
     getData();
@@ -49,12 +50,12 @@ const DirectTeam = ({navigation}) => {
 
   const fetchIt = x => {
     axios
-      .get('https://bcnt.gheeserver.xyz/php_scripts/directTeam.php?userId=' + x)
+      .get('https://gheeson.in/bcnt/php_scripts/V7/directTeamV7.php?userId=' + x)
       .then(function (response) {
         const {data} = response;
-        setDataList(data);
-        setlistLength(data.length)
-
+        setDataList(data[1]);
+        setlistLength(data[1].length)
+        // setTeamCount(data[0])
       })
       .catch(function (error) {
         Alert.alert('Network Issue ' + error.messaage)
@@ -74,11 +75,19 @@ const DirectTeam = ({navigation}) => {
       return (
         <View style={{marginTop: 20}}>
           {datalist.map((x, i) => {
+             let id = x.userId;
+             var display;
+             if (id.length > 3) {
+              display = id.replace(id.substring(2,6), '****')
+             }else
+             {
+              display = id;
+             }
             return (
               <View style={styles.listcomponent} key={i}>
                 <Text style={styles.moneyText}>{x.name}</Text>
                 <View style={styles.listcomponentUp}>
-                  <Text style={styles.tagText}>ID - {x.userId}</Text>
+                  <Text style={styles.tagText}>ID - {display}</Text>
                   <Text style={styles.tagText}>Phone - {x.phone}</Text>
                 </View>
                 <View style={styles.listcomponentDown}>

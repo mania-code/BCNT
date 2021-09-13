@@ -60,7 +60,7 @@ const Request = ({navigation, theme}) => {
   const FeatchData = async () => {
     await axios
       .get(
-        'https://bcnt.gheeserver.xyz/php_scripts/general.php?userId=' +
+        'https://gheeson.in/bcnt/php_scripts/general.php?userId=' +
           nonStateId,
       )
       .then(function (response) {
@@ -115,7 +115,7 @@ const Request = ({navigation, theme}) => {
         amt = amt * 0.85;
         await axios
           .get(
-            'https://bcnt.gheeserver.xyz/php_scripts/request.php?userId=' +
+            'https://gheeson.in/bcnt/php_scripts/request.php?userId=' +
               id +
               '&address=' +
               add +
@@ -134,7 +134,7 @@ const Request = ({navigation, theme}) => {
               });
               if (editables == true) {
                 axios.get(
-                  'https://bcnt.gheeserver.xyz/php_scripts/addAddress.php?userId=' +
+                  'https://gheeson.in/bcnt/php_scripts/addAddress.php?userId=' +
                     id +
                     '&newAdd=' +
                     add,
@@ -160,7 +160,12 @@ const Request = ({navigation, theme}) => {
   let fist =  TokenAdd.charAt(0)
   if (fist == 'T') {
     if (TokenAdd.length == 34) {
+      if(isNaN(Amount))
+      {
+        Alert.alert('Invalid Amount' , 'Please enter a valid Amount')
+      }else{
       sendRequest(TokenAdd, Amount)
+      }
     }else{
       console.log('lll' + TokenAdd.length);
     }
@@ -230,6 +235,10 @@ const Request = ({navigation, theme}) => {
         <Text
           style={{fontSize: xsmallText, color: colors.secondary, marginTop: 5}}>
           15% Tranction Fee will be deducted. You will get {Amount * 0.85}
+        </Text>
+        <Text
+          style={{fontSize: xsmallText, color: colors.secondary, marginTop: 5}}>
+            **Update only BCNT address, Otherwise your coin will lost.**
         </Text>
       </View>
     </View>

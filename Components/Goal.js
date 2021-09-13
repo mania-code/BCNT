@@ -15,7 +15,7 @@ import {
 
 export default function Goal(props) {
   
-  const fullplan = 'https://bcnt.gheeserver.xyz/Assets/BCNT%20POSTER.pdf';
+  const fullplan = 'https://gheeson.in/bcnt/Assets/BCNT%20POSTER.pdf';
 
   const [NextG, setNextG] = useState('');
   const [joinedDays, setjoinedDays] = useState('')  // can remove this
@@ -300,7 +300,7 @@ export default function Goal(props) {
     var c = JSON.parse(jsonValue);
     if (c !== null) {
       var user_id = c.user_id;
-      await axios.get('https://bcnt.gheeserver.xyz/php_scripts/goal.php?id=' + user_id)
+      await axios.get('https://gheeson.in/bcnt/php_scripts/goal.php?id=' + user_id)
       .then(response => {
         const rarr = response.data;
 

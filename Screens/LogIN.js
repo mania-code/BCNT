@@ -31,7 +31,7 @@ const LogInScreen = ({ navigation, theme }) => {
             const auth = async () => {
                 try {
                     setLoad(true);
-                    axios.get('https://bcnt.gheeserver.xyz/php_scripts/login.php?userId=' + userId + '&password=' + password)
+                    axios.get('https://gheeson.in/bcnt/php_scripts/login.php?userId=' + userId + '&password=' + password)
                         .then(function (response) {
                             const rstring = response.data;
                             

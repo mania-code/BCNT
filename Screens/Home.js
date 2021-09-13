@@ -15,9 +15,9 @@ import Goal from '../Components/Goal';
 const vh = Dimensions.get('window').height;
 
 const images = [
-  'https://bcnt.gheeserver.xyz/Assets/s1.png',
-  'https://bcnt.gheeserver.xyz/Assets/s2.png',
-  'https://bcnt.gheeserver.xyz/Assets/s3.png',
+  'https://gheeson.in/bcnt/Assets/s1.png',
+  'https:///gheeson.in/bcnt/Assets/s2.png',
+  'https:///gheeson.in/bcnt/Assets/s3.png',
 ];
 
 const Home = ({navigation}) => {
@@ -86,7 +86,7 @@ const Home = ({navigation}) => {
   const FeatchData = async nonStateId => {
     await axios
       .get(
-        'https://bcnt.gheeserver.xyz/php_scripts/general.php?userId=' +
+        'https://gheeson.in/bcnt/php_scripts/general.php?userId=' +
           nonStateId,
       )
       .then(function (response) {
@@ -102,7 +102,10 @@ const Home = ({navigation}) => {
         if (rarr[6] == null) {
           setwithdrawed('000');
         } else {
-          setwithdrawed(rarr[6]);
+          let temp  = rarr[6] * 100;
+          let final = temp/85;
+          setwithdrawed(final);
+          // setwithdrawed(rarr[6]);
         }
       })
       .catch(function (error) {

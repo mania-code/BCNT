@@ -39,7 +39,7 @@ const SignUp = ({navigation, theme}) => {
 
           axios
             .get(
-              'https://bcnt.gheeserver.xyz/php_scripts/sponsor_name.php?id=' +
+              'https://gheeson.in/bcnt/php_scripts/sponsor_name.php?id=' +
                 value,
             )
             .then(response => {
@@ -95,6 +95,36 @@ const SignUp = ({navigation, theme}) => {
     // let boola = expression.test(String(email).toLowerCase())
   };
 
+    
+const phoneValidate = (inputtxt) => 
+{
+  var phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+  if(inputtxt.match(phoneno))
+        {
+      return true;
+        }
+      else
+        {
+        alert("Please! Enter a Valid Mobile Number");
+        return false;
+        }
+}
+
+const userIdValidate = (userIdx) => 
+{
+  var phoneno = /^[a-zA-Z0-9_.-]*$/;
+  if(userIdx.match(phoneno))
+        {
+      return true;
+        }
+      else
+        {
+        alert("Please! Enter a Valid Email userId");
+        return false;
+        }
+}
+
+
   const validate = () => {
     if (
       userId.length == 0 ||
@@ -110,7 +140,9 @@ const SignUp = ({navigation, theme}) => {
       stateCode == null ||
       countryCode == null ||
       password != cpassword ||
-      !validate2(email)
+      !validate2(email) ||
+      !phoneValidate(mobile) ||
+      !userIdValidate(userId)
     ) {
       if (password != cpassword) {
         Snackbar.show({
@@ -133,9 +165,24 @@ const SignUp = ({navigation, theme}) => {
           backgroundColor: colors.secondary,
           textColor: '#FFF',
         });
-      } else if (!validate2(email)) {
+      } else if (!userIdValidate(userId)) {
+        Snackbar.show({
+          text: 'Please! Enter a Valid Email userId',
+          duration: Snackbar.LENGTH_LONG,
+          backgroundColor: colors.secondary,
+          textColor: '#FFF',
+        });
+      }  else if (!validate2(email)) {
         Snackbar.show({
           text: 'Please! Enter a Valid Email Address',
+          duration: Snackbar.LENGTH_LONG,
+          backgroundColor: colors.secondary,
+          textColor: '#FFF',
+        });
+      } else if (!phoneValidate(mobile)) 
+      {
+        Snackbar.show({
+          text: 'Please! Enter a Valid Mobile Number',
           duration: Snackbar.LENGTH_LONG,
           backgroundColor: colors.secondary,
           textColor: '#FFF',
@@ -169,8 +216,7 @@ const SignUp = ({navigation, theme}) => {
       const auth = async (unkid) => {
         try {
           setLoad(true);
-          axios
-            .get('https://bcnt.gheeserver.xyz/php_scripts/register.php/', {
+          axios.get('https://gheeson.in/bcnt/php_scripts/register.php/', {
               // data: { firstName: 'Fred',} # try to use passing object insterd of single single params
               params: {
                 name: name,
@@ -240,7 +286,7 @@ const SignUp = ({navigation, theme}) => {
 
   const deviceVal = (unkid,user,auth) => {
 
-    axios.get('https://bcnt.gheeserver.xyz/php_scripts/deviceValidation.php?user='+ user +'&imei='+ unkid)
+    axios.get('https://gheeson.in/bcnt/php_scripts/deviceValidation.php?user='+ user +'&imei='+ unkid)
     .then((resp)=>{
 
       if(resp.data == 'available')
@@ -290,7 +336,7 @@ const SignUp = ({navigation, theme}) => {
                 onEndEditing={x => {
                   axios
                     .get(
-                      'https://bcnt.gheeserver.xyz/php_scripts/sponsor_name.php?id=' +
+                      'https://gheeson.in/bcnt/php_scripts/sponsor_name.php?id=' +
                         x.nativeEvent.text,
                     )
                     .then(response => {
@@ -429,7 +475,7 @@ const SignUp = ({navigation, theme}) => {
             <View style={styles.inputView}>
               <Text style={styles.labelText}>
                 {' '}
-                <Icon name="id-card" size={18} color="#fff" /> Set UserId - 10
+                <Icon name="id-card" size={18} color="#fff" /> Create your own UserId - 10
                 letters only*
               </Text>
               <TextInput
@@ -448,7 +494,7 @@ const SignUp = ({navigation, theme}) => {
                 onEndEditing={x => {
                   axios
                     .get(
-                      'https://bcnt.gheeserver.xyz/php_scripts/check_uid.php?uid=' +
+                      'https://gheeson.in/bcnt/php_scripts/check_uid.php?uid=' +
                         x.nativeEvent.text,
                     )
                     .then(response => {
@@ -523,7 +569,7 @@ const SignUp = ({navigation, theme}) => {
               <Text
                 onPress={() => {
                   Linking.openURL(
-                    'https://bcnt.gheeserver.xyz/Assets/Terms.pdf',
+                    'https://gheeson.in/bcnt/Assets/Terms.pdf',
                   );
                 }}
                 style={{color: 'tomato'}}>

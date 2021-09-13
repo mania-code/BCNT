@@ -55,7 +55,7 @@ const LevelTeam = ({navigation}) => {
     if (x != 0) {
       await axios
         .get(
-          'https://bcnt.gheeserver.xyz/php_scripts/version6/levelTeamV6.php?userId=' +
+          'https://gheeson.in/bcnt/php_scripts/V7/levelTeamV7.php?userId=' +
             userid +
             '&level=' +
             x,
@@ -65,7 +65,6 @@ const LevelTeam = ({navigation}) => {
           console.log(data);
           setTeamSize(data[0]);
           setDataList(data[1]);
-          console.log('papa' + data[1]);
         })
         .catch(err => {
           console.log(err);
@@ -91,11 +90,19 @@ const LevelTeam = ({navigation}) => {
           <ScrollView contentContainerStyle={{paddingBottom:200}}>
             {/* <View style={{flex:1}}> */}
             {datalist.map((x, i) => {
+              let id = x[0];
+              let display;
+              if (id.length > 3) {
+                 display = id.replace(id.substring(2,6), '****')
+              }else
+              {
+                display = id;
+              }
               return (
                 <View style={styles.listcomponent} key={i}>
                   <Text style={styles.moneyText}>{x[1]}</Text>
                   <View style={styles.listcomponentUp}>
-                    <Text style={styles.tagText}>ID - {x[0]}</Text>
+                    <Text style={styles.tagText}>ID - {display}</Text>
                     <Text style={styles.tagText}>Phone - {x[2]}</Text>
                   </View>
                   <View style={styles.listcomponentDown}>
