@@ -138,7 +138,8 @@ const LogInScreen = ({ navigation, theme }) => {
                             >
                                 <Text style={styles.loginText}>SIGN UP</Text>
                             </TouchableOpacity>
-
+                            <Text style={styles.forgot}>Login if you are alredy Registred</Text>
+                            <Text style={styles.forgot}>Click Sign Up to create a new account</Text> 
                         </View>
                     </View>
             }
@@ -175,8 +176,10 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         height: 50,
         alignItems: "center",
+        backgroundColor:'#84CC16',
         justifyContent: "center",
         marginBottom: 10
+
     },
     SignupBtn: {
         width: "80%",

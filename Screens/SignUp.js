@@ -23,8 +23,7 @@ import {withTheme, ActivityIndicator} from 'react-native-paper';
 import countrylist from '../Assets/countryies.json';
 import stateslist from '../Assets/state.json';
 import DeviceInfo from 'react-native-device-info';
-import NetInfo from "@react-native-community/netinfo";
-
+import NetInfo from '@react-native-community/netinfo';
 
 const vh = Dimensions.get('window').height / 100;
 const vw = Dimensions.get('window').width / 100;
@@ -51,7 +50,7 @@ const SignUp = ({navigation, theme}) => {
               }
             })
             .catch(error => {
-              Alert.alert('Server Error -', error.message);
+              Alert.alert('Server Error -', 'Sponsor -' +  error.message);
             });
         }
       } catch (e) {
@@ -63,8 +62,6 @@ const SignUp = ({navigation, theme}) => {
 
     return () => {};
   }, []);
-
-  
 
   const [name, setname] = useState('');
   const [userId, setuserId] = useState('');
@@ -95,35 +92,25 @@ const SignUp = ({navigation, theme}) => {
     // let boola = expression.test(String(email).toLowerCase())
   };
 
-    
-const phoneValidate = (inputtxt) => 
-{
-  var phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
-  if(inputtxt.match(phoneno))
-        {
+  const phoneValidate = inputtxt => {
+    var phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+    if (inputtxt.match(phoneno)) {
       return true;
-        }
-      else
-        {
-        alert("Please! Enter a Valid Mobile Number");
-        return false;
-        }
-}
+    } else {
+      alert('Please! Enter a Valid Mobile Number');
+      return false;
+    }
+  };
 
-const userIdValidate = (userIdx) => 
-{
-  var phoneno = /^[a-zA-Z0-9_.-]*$/;
-  if(userIdx.match(phoneno))
-        {
+  const userIdValidate = userIdx => {
+    var phoneno = /^[a-zA-Z0-9_.-]*$/;
+    if (userIdx.match(phoneno)) {
       return true;
-        }
-      else
-        {
-        alert("Please! Enter a Valid Email userId");
-        return false;
-        }
-}
-
+    } else {
+      alert('Please! Enter a Valid Email userId');
+      return false;
+    }
+  };
 
   const validate = () => {
     if (
@@ -172,39 +159,35 @@ const userIdValidate = (userIdx) =>
           backgroundColor: colors.secondary,
           textColor: '#FFF',
         });
-      }  else if (!validate2(email)) {
+      } else if (!validate2(email)) {
         Snackbar.show({
           text: 'Please! Enter a Valid Email Address',
           duration: Snackbar.LENGTH_LONG,
           backgroundColor: colors.secondary,
           textColor: '#FFF',
         });
-      } else if (!phoneValidate(mobile)) 
-      {
+      } else if (!phoneValidate(mobile)) {
         Snackbar.show({
           text: 'Please! Enter a Valid Mobile Number',
           duration: Snackbar.LENGTH_LONG,
           backgroundColor: colors.secondary,
           textColor: '#FFF',
         });
-      } else if (referal.length == 0)
-      {
+      } else if (referal.length == 0) {
         Snackbar.show({
           text: 'Please! Enter a Valid Referral ',
           duration: Snackbar.LENGTH_LONG,
           backgroundColor: colors.secondary,
           textColor: '#FFF',
         });
-      } else if (userId.indexOf(' ') >= 0)
-      {
+      } else if (userId.indexOf(' ') >= 0) {
         Snackbar.show({
           text: 'User Id should not contain Space',
           duration: Snackbar.LENGTH_LONG,
           backgroundColor: colors.secondary,
           textColor: '#FFF',
         });
-      } 
-      else {
+      } else {
         Snackbar.show({
           text: 'please fill details!!',
           duration: Snackbar.LENGTH_LONG,
@@ -213,10 +196,11 @@ const userIdValidate = (userIdx) =>
         });
       }
     } else {
-      const auth = async (unkid) => {
+      const auth = async unkid => {
         try {
           setLoad(true);
-          axios.get('https://gheeson.in/bcnt/php_scripts/register.php/', {
+          axios
+            .get('https://gheeson.in/bcnt/php_scripts/register.php/', {
               // data: { firstName: 'Fred',} # try to use passing object insterd of single single params
               params: {
                 name: name,
@@ -276,29 +260,28 @@ const userIdValidate = (userIdx) =>
         }
       };
 
-      let kaka = DeviceInfo.getUniqueId()
-      
-      deviceVal(kaka, userId, auth)
-     
-      
+      let kaka = DeviceInfo.getUniqueId();
+
+      deviceVal(kaka, userId, auth);
     }
   };
 
-  const deviceVal = (unkid,user,auth) => {
-
-    axios.get('https://gheeson.in/bcnt/php_scripts/deviceValidation.php?user='+ user +'&imei='+ unkid)
-    .then((resp)=>{
-
-      if(resp.data == 'available')
-      {
-        auth(unkid)
-      }else
-      {
-        Alert.alert('Device Error -', resp.data)
-      }
-
-    })
-  }
+  const deviceVal = (unkid, user, auth) => {
+    axios
+      .get(
+        'https://gheeson.in/bcnt/php_scripts/deviceValidation.php?user=' +
+          user +
+          '&imei=' +
+          unkid,
+      )
+      .then(resp => {
+        if (resp.data == 'available') {
+          auth(unkid);
+        } else {
+          Alert.alert('Device Error -', unkid + ' ' + resp.data);
+        }
+      });
+  };
 
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
@@ -351,7 +334,7 @@ const userIdValidate = (userIdx) =>
                       }
                     })
                     .catch(error => {
-                      Alert.alert('Server Error -', error.message);
+                      Alert.alert('Server Error -', 'Sponsor -' + error.message);
                     });
                 }}
                 value={referal}></TextInput>
@@ -475,8 +458,8 @@ const userIdValidate = (userIdx) =>
             <View style={styles.inputView}>
               <Text style={styles.labelText}>
                 {' '}
-                <Icon name="id-card" size={18} color="#fff" /> Create your own UserId - 10
-                letters only*
+                <Icon name="id-card" size={18} color="#fff" /> Create your own
+                UserId - 10 letters only*
               </Text>
               <TextInput
                 style={[
@@ -506,7 +489,7 @@ const userIdValidate = (userIdx) =>
                       setuidAval('This user id is ' + response.data);
                     })
                     .catch(error => {
-                      Alert.alert('Server Error -', error.message);
+                      Alert.alert('Server Error -', 'user id -' +  error.message);
                     });
                 }}
                 value={userId}></TextInput>
@@ -568,9 +551,7 @@ const userIdValidate = (userIdx) =>
               </Text>
               <Text
                 onPress={() => {
-                  Linking.openURL(
-                    'https://gheeson.in/bcnt/Assets/Terms.pdf',
-                  );
+                  Linking.openURL('https://gheeson.in/bcnt/Assets/Terms.pdf');
                 }}
                 style={{color: 'tomato'}}>
                 terms and conditions

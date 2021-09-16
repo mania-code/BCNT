@@ -102,8 +102,9 @@ const Home = ({navigation}) => {
         if (rarr[6] == null) {
           setwithdrawed('000');
         } else {
-          let temp  = rarr[6] * 100;
-          let final = temp/85;
+          // let temp  = rarr[6] * 100;
+          // let final = temp/85;
+          let final = rarr[6];
           setwithdrawed(final);
           // setwithdrawed(rarr[6]);
         }

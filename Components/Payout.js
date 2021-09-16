@@ -78,10 +78,11 @@ const Payout = ({navigation}) => {
       return (
         <View style={{marginTop: 20}}>
           {datalist.map((x, i) => {
-             let amtb = x.amount;
-             let amte = amtb * 1.176470;
-             console.log(Math.ceil(amte));
-             let amt =  parseInt( Math.ceil(amte));
+            //  let amtb = x.amount;
+            //  let amte = amtb * 1.176470;
+            //  console.log(Math.ceil(amte));
+            //  let amt =  parseInt( Math.ceil(amte));
+            let amt = x.amount;
             let stat;
             let colo;
             if (x.status == 'P') {
@@ -91,7 +92,7 @@ const Payout = ({navigation}) => {
               stat = 'Completed';
               colo = '#4caf50';
             } else {
-              stat = 'Blocked';
+              stat = 'Rejected';
               colo = '#e66759';
             }
             return (
