@@ -94,7 +94,7 @@ const SignUp = ({navigation, theme}) => {
 
   const phoneValidate = inputtxt => {
     var phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
-    if (inputtxt.match(phoneno)) {
+    if (!isNaN(inputtxt)) {
       return true;
     } else {
       alert('Please! Enter a Valid Mobile Number');
@@ -375,7 +375,7 @@ const SignUp = ({navigation, theme}) => {
                 style={styles.inputText}
                 placeholder=" Enter Mobile Number"
                 placeholderTextColor="#777"
-                maxLength={10}
+                maxLength={17}
                 autoCompleteType="tel"
                 onChangeText={x => {
                   setmobile(x);

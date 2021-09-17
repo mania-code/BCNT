@@ -11,10 +11,10 @@ const vh = Dimensions.get("window").height / 100;
 
 const Sidebar = (props) => {
 
-    const Support = 'https://wa.me/917600834324?text=Hello';
     const Privacy = 'https://gheeson.in/bcnt/Assets/Privacy.pdf';
     const Terms = 'https://gheeson.in/bcnt/Assets/Terms.pdf';
     const Wpaper = 'https://gheeson.in/bcnt/Assets/BYTE%20CONNECT.pdf';
+    const playstore = 'https://play.google.com/store/apps/details?id=com.bcnt';
 
 
     return (
@@ -43,6 +43,12 @@ const Sidebar = (props) => {
                         icon={() => (<Icon name="shield" color='black' size={25} style={{ width: 32 }} />)}
                         label={() => (<Text style={{ fontSize: 17, textAlign: 'left' }} >Privacy Policy</Text>)}
                         onPress={() => Linking.openURL(Privacy)}
+                    />
+                    
+                    <DrawerItem
+                        icon={() => (<Icon name="star-half-empty" color='black' size={25} style={{ width: 32 }} />)}
+                        label={() => (<Text style={{ fontSize: 17, textAlign: 'left' }} >Rate Us</Text>)}
+                        onPress={() => Linking.openURL(playstore)}
                     />
 
 
