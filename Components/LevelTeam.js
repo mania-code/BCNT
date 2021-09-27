@@ -25,7 +25,7 @@ const LevelTeam = ({navigation}) => {
   const [loading, setLoaded] = useState(true);
   const [datalist, setDataList] = useState([]);
   const [userid, setuid] = useState('');
-  const [teamSize , setTeamSize] = useState(0)
+  const [teamSize, setTeamSize] = useState(0);
   const [lab, setlab] = useState(0);
 
   useEffect(() => {
@@ -87,15 +87,16 @@ const LevelTeam = ({navigation}) => {
       return (
         //   <View style={{flex:1}}>
         <>
-          <ScrollView contentContainerStyle={{paddingBottom:200}}>
+          <ScrollView contentContainerStyle={{paddingBottom: 200}}>
             {/* <View style={{flex:1}}> */}
             {datalist.map((x, i) => {
               let id = x[0];
+              let numa = x[2];
               let display;
+              let displayNum = numa.replace(numa.substring(3,7),'****');
               if (id.length > 3) {
-                 display = id.replace(id.substring(2,6), '****')
-              }else
-              {
+                display = id.replace(id.substring(2, 6), '****');
+              } else {
                 display = id;
               }
               return (
@@ -103,7 +104,7 @@ const LevelTeam = ({navigation}) => {
                   <Text style={styles.moneyText}>{x[1]}</Text>
                   <View style={styles.listcomponentUp}>
                     <Text style={styles.tagText}>ID - {display}</Text>
-                    <Text style={styles.tagText}>Phone - {x[2]}</Text>
+                    <Text style={styles.tagText}>Phone - {displayNum}</Text>
                   </View>
                   <View style={styles.listcomponentDown}>
                     <Text>DATE - {x[3]}</Text>

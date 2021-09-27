@@ -26,7 +26,7 @@ import Snackbar from 'react-native-snackbar';
 const Request = ({navigation, theme}) => {
   const [Amount, setAmount] = useState('');
   let nonStateId;
-  const [TokenAdd, setTokenAdd] = useState('')
+  const [TokenAdd, setTokenAdd] = useState('');
   const [id, setId] = useState('');
   const [avlCoin, setavlCoin] = useState('000');
   const [loading, setLoad] = useState(true);
@@ -60,8 +60,7 @@ const Request = ({navigation, theme}) => {
   const FeatchData = async () => {
     await axios
       .get(
-        'https://gheeson.in/bcnt/php_scripts/general.php?userId=' +
-          nonStateId,
+        'https://gheeson.in/bcnt/php_scripts/general.php?userId=' + nonStateId,
       )
       .then(function (response) {
         const rarr = response.data;
@@ -81,7 +80,7 @@ const Request = ({navigation, theme}) => {
         console.log(error);
       })
       .finally(function () {
-        setLoad(false)
+        setLoad(false);
       });
   };
 
@@ -156,33 +155,55 @@ const Request = ({navigation, theme}) => {
     }
   };
 
-  const validate = (TokenAdd, Amount) => {
-  let fist =  TokenAdd.charAt(0)
-  if (fist == 'T') {
-    if (TokenAdd.length == 34) {
-      if(isNaN(Amount))
-      {
-        Alert.alert('Invalid Amount' , 'Please enter a valid Amount')
-      }else{
-      sendRequest(TokenAdd, Amount)
+  const validate = async (TokenAdd, Amount) => {
+    let fist = TokenAdd.charAt(0);
+    if (fist == 'T') {
+      if (TokenAdd.length == 34) {
+        if (isNaN(Amount)) {
+          Alert.alert('Invalid Amount', 'Please enter a valid Amount');
+        } else {
+          if (editables == true) {
+            await axios
+              .get(
+                'https://gheeson.in/bcnt/php_scripts/address_check.php?address=' +
+                  TokenAdd,
+              )
+              .then(response => {
+                if (response.data == 'available') {
+                  sendRequest(TokenAdd, Amount);
+                } else {
+                  Alert.alert(
+                    'Token alredy in use -',
+                    'please use your own token address, One address can used once only',
+                  );
+                }
+              })
+              .catch(error => {
+                Alert.alert(
+                  'Api failure -',
+                  'Network not responding to token request ' + error.message,
+                );
+              });
+          }else{
+            sendRequest(TokenAdd, Amount);
+          }
+        }
+      } else {
+        Alert.alert('Invalid Address', 'Please enter a valid address');
+        console.log('Invalid -> ' + TokenAdd.length);
       }
-    }else{
-      console.log('lll' + TokenAdd.length);
+    } else {
+      Alert.alert('Invalid Address', 'Please enter a valid address');
     }
-  }else{
-    Alert.alert('Invalid Address' , 'Please enter a valid address')
-  }
-  }
-  
+  };
 
   if (loading) {
-    return(
+    return (
       <ActivityIndicator
-      colors={'tomato'}
-      animating={true}
-      size="large"
-      style={{marginTop:250}}
-      ></ActivityIndicator>
+        colors={'tomato'}
+        animating={true}
+        size="large"
+        style={{marginTop: 250}}></ActivityIndicator>
     );
   }
 
@@ -196,7 +217,7 @@ const Request = ({navigation, theme}) => {
         <Card>
           <Card.Title title="Withdrawal Request" />
           <Card.Content>
-            <Text> {currAdd != 'noAddress' && 'Saved -'+currAdd} </Text>
+            <Text> {currAdd != 'noAddress' && 'Saved -' + currAdd} </Text>
             <TextInput
               label="Wallet Address"
               maxLength={34}
@@ -205,7 +226,7 @@ const Request = ({navigation, theme}) => {
               editable={editables}
               onChangeText={x => {
                 // setcurrAdd(x)
-                setTokenAdd(x)
+                setTokenAdd(x);
                 // TokenAdd = x;
               }}
             />
@@ -238,12 +259,11 @@ const Request = ({navigation, theme}) => {
         </Text>
         <Text
           style={{fontSize: xsmallText, color: colors.secondary, marginTop: 5}}>
-            **Update only BCNT address, Otherwise your coin will lost.**
+          **Update only BCNT address, Otherwise your coin will lost.**
         </Text>
       </View>
     </View>
   );
-
 };
 
 export default withTheme(Request);

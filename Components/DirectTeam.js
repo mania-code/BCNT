@@ -87,7 +87,7 @@ const DirectTeam = ({navigation}) => {
               <View style={styles.listcomponent} key={i}>
                 <Text style={styles.moneyText}>{x.name}</Text>
                 <View style={styles.listcomponentUp}>
-                  <Text style={styles.tagText}>ID - {display}</Text>
+                  <Text style={styles.tagText}>ID - {id}</Text>
                   <Text style={styles.tagText}>Phone - {x.phone}</Text>
                 </View>
                 <View style={styles.listcomponentDown}>
