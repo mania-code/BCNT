@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
-import {Avatar, Card, IconButton} from 'react-native-paper';
+import {Avatar, Card, IconButton, Badge} from 'react-native-paper';
 import {
   smText,
   xsmallText,
@@ -14,10 +14,10 @@ import {
 export default function Profile(props) {
   return (
     <View style={styles.mainView}>
+      {/* <Badge size={30} >2</Badge> */}
       <Avatar.Image
         size={xlargeText * 3}
-        source={require('../Assets/male1_avatar.png')}
-      />
+        source={require('../Assets/male1_avatar.png')}/>
       <View
         style={{
           backgroundColor: '#fff',
@@ -32,6 +32,7 @@ export default function Profile(props) {
           alignItems: 'center',
           borderRadius:10,
         }}>
+
         <Avatar.Icon icon="certificate" size={xlargeText} />
         <Text style={{fontWeight: 'bold', color:'#008DCF',fontSize:midText}}>{props.badge}</Text>
       </View>

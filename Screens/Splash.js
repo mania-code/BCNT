@@ -78,13 +78,20 @@ const getData = async (navigation) => {
   try {
     const jsonValue = await AsyncStorage.getItem('userData')
     const c = JSON.parse(jsonValue);
-    if (c !== null) {
-      navigation.replace('Drower');
+    console.log(JSON.stringify(c))
+    if (c == null) {
+      console.log('c is null');
+      setTimeout(() => {
+        navigation.replace('LogIn')    //re active it
+        // navigation.replace('Drower')
+      }, 1000)
     }
     else {
-      setTimeout(() => {
-        navigation.replace('LogIn')
-      }, 1000)
+      if (c.user_verified == true) {
+        navigation.replace('Drower');        
+      } else {
+        navigation.replace('Verify');
+      }
     }
   } catch (e) {
     console.log(e)

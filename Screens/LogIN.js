@@ -31,7 +31,7 @@ const LogInScreen = ({ navigation, theme }) => {
             const auth = async () => {
                 try {
                     setLoad(true);
-                    axios.get('https://gheeson.in/bcnt/php_scripts/login.php?userId=' + userId + '&password=' + password)
+                    axios.get('https://gheeson.in/bcnt/php_scripts/V11/login.php?userId=' + userId + '&password=' + password)
                         .then(function (response) {
                             const rstring = response.data;
                             
@@ -47,6 +47,7 @@ const LogInScreen = ({ navigation, theme }) => {
                                     user_name: rstring[3],
                                     user_mobile: rstring[1],
                                     user_email: rstring[2],
+                                    user_verified: true,
                                 }
 
                                 const storeData = async (value) => {

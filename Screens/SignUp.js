@@ -82,7 +82,6 @@ const SignUp = ({navigation, theme}) => {
   const cc = '#f00';
 
   const {colors} = theme;
-  // console.log(route.params.uid);
 
   const validate2 = email => {
     const expression =
@@ -121,6 +120,7 @@ const SignUp = ({navigation, theme}) => {
       cpassword.length == 0 ||
       name.length == 0 ||
       mobile.length == 0 ||
+      spname == 'User Not Found' ||
       email.length == 0 ||
       mobile.length < 10 ||
       userId.indexOf(' ') >= 0 ||
@@ -180,6 +180,15 @@ const SignUp = ({navigation, theme}) => {
           backgroundColor: colors.secondary,
           textColor: '#FFF',
         });
+      }else if(spname == 'User Not Found')
+      {
+        Snackbar.show({
+          text: 'Sponsor Id is not valid',
+          duration: Snackbar.LENGTH_LONG,
+          backgroundColor: colors.secondary,
+          textColor: '#FFF',
+        });
+
       } else if (userId.indexOf(' ') >= 0) {
         Snackbar.show({
           text: 'User Id should not contain Space',
@@ -200,7 +209,7 @@ const SignUp = ({navigation, theme}) => {
         try {
           setLoad(true);
           axios
-            .get('https://gheeson.in/bcnt/php_scripts/register.php/', {
+            .get('https://gheeson.in/bcnt/php_scripts/V11/register.php/', {
               // data: { firstName: 'Fred',} # try to use passing object insterd of single single params
               params: {
                 name: name,
@@ -223,6 +232,7 @@ const SignUp = ({navigation, theme}) => {
                   user_name: name,
                   user_mobile: mobile,
                   user_email: email,
+                  user_verified: false,
                 };
 
                 const storeData = async value => {
@@ -236,9 +246,10 @@ const SignUp = ({navigation, theme}) => {
 
                 storeData(userOjbect);
 
-                navigation.replace('Drower');
+                // navigation.replace('Drower');
+                navigation.replace('Verify');
                 Snackbar.show({
-                  text: 'Welcome ' + name,
+                  text: 'Verify your mail' + name,
                   backgroundColor: colors.primary,
                   duration: Snackbar.LENGTH_LONG,
                   textColor: '#fff',
@@ -319,7 +330,7 @@ const SignUp = ({navigation, theme}) => {
                 onEndEditing={x => {
                   axios
                     .get(
-                      'https://gheeson.in/bcnt/php_scripts/sponsor_name.php?id=' +
+                      'https://gheeson.in/bcnt/php_scripts/V11/sponsor_name.php?id=' +
                         x.nativeEvent.text,
                     )
                     .then(response => {
@@ -438,7 +449,7 @@ const SignUp = ({navigation, theme}) => {
                 onValueChange={x => {
                   setStateCode(x);
                 }}
-                // onValueChange={(x) => {console.log(x)}}
+               
               >
                 <Picker.Item label="Select State" value={null} />
                 {stalist.map((item, index) => {

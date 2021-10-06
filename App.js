@@ -11,6 +11,7 @@ import DirectTeam from './Components/DirectTeam';
 import Income from './Components/Income';
 import Payout from './Components/Payout';
 import LevelTeam from './Components/LevelTeam';
+import Verify from './Components/Verify';
 import Request from './Screens/Request';
 import RefferEarn from './Components/RefferEarn';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
@@ -114,6 +115,7 @@ export default function App() {
             <Stack.Screen name="Payout" component={Payout} />
             <Stack.Screen name="LevelTeam" component={LevelTeam} />
             <Stack.Screen name="Request" component={Request} />
+            <Stack.Screen name="Verify" component={Verify} />
             <Stack.Screen name="RefferEarn" component={RefferEarn} />
           </Stack.Navigator>
         </NavigationContainer>
