@@ -23,8 +23,8 @@ export default function Verify({navigation}) {
 
   const [otp, setotp] = useState('');
   const [email, setemail] = useState('');
-  const [name, setname] = useState('')
-  const [mob, setmob] = useState('')
+  const [name, setname] = useState('');
+  const [mob, setmob] = useState('');
   const [userId, setUser_id] = useState('');
   const [twitter, settwitter] = useState(0);
   const [instag, setinstag] = useState(0);
@@ -128,9 +128,7 @@ export default function Verify({navigation}) {
                 await AsyncStorage.setItem('userData', jsonValue);
                 navigation.replace('Drower');
               } catch (e) {
-                Alert.alert(
-                  'Data not stored in LocalStorage!!',e
-                );
+                Alert.alert('Data not stored in LocalStorage!!', e);
               }
             };
 
@@ -150,10 +148,25 @@ export default function Verify({navigation}) {
           }
         })
         .catch(error => {
-          Alert.alert('Server down',error.message)
-        })
+          Alert.alert('Server down', error.message);
+        });
     }
   };
+
+  const resendOtp = async () => {
+    await axios.get('https://gheeson.in/bcnt/php_scripts/V11/resendOtp.php?userId='+userId)
+    .then(response => {
+      if (response.data == "Limit exceeded") {
+          Alert.alert("OTP limit exceeded", "We have send you otp 5 times, check your spam folder or email us with your registerd email address for verification")
+      }
+      else if (response.data == "mail sent")
+      {
+        Alert.alert("OTP sent again.", "Please check your spam folder, wait 10 min before resending otp, you only have 5 chance total to resend OTP")
+      }
+    }).catch(error => {
+      Alert.alert("Server down" , "Unable to resend otp.")
+    })
+  }
 
   return (
     <ScrollView>
@@ -229,8 +242,19 @@ export default function Verify({navigation}) {
           <Button mode="contained" onPress={() => verification()}>
             Verify OTP
           </Button>
+
+          <Button
+            mode="text"
+            style={{marginTop: 10}}
+            onPress={() => resendOtp()}>
+            Resend OTP
+          </Button>
         </Card.Content>
       </Card>
+    <View style={styles.bottomView}>  
+      <Text>Contact us on - bcntglobal@gmail.com</Text>
+    </View>
+
     </ScrollView>
   );
 }
@@ -239,4 +263,11 @@ const styles = StyleSheet.create({
   mediaBtn: {
     marginVertical: 10,
   },
+  bottomView:
+  {
+    // backgroundColor:'#ccc',
+    margin:10,
+    // marginTop:50,
+    // padding: 5,
+  }
 });

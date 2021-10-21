@@ -31,7 +31,7 @@ const LogInScreen = ({ navigation, theme }) => {
             const auth = async () => {
                 try {
                     setLoad(true);
-                    axios.get('https://gheeson.in/bcnt/php_scripts/V11/login.php?userId=' + userId + '&password=' + password)
+                    axios.get('https://gheeson.in/bcnt/php_scripts/V11/newLogin.php?userId=' + userId + '&password=' + password)
                         .then(function (response) {
                             const rstring = response.data;
                             
@@ -63,7 +63,36 @@ const LogInScreen = ({ navigation, theme }) => {
                                 storeData(userOjbect);
                                 
                             }
+                            else if (rstring[0] == 'Verify')
+                            {
+                                Snackbar.show({
+                                    text: "Please Verify your Email",
+                                    duration: Snackbar.LENGTH_LONG,
+                                    backgroundColor: colors.primary,
+                                    textColor: '#FFF'
+                                })
+                                const userOjbect = {
+                                    user_id: userId,
+                                    user_name: rstring[3],
+                                    user_mobile: rstring[1],
+                                    user_email: rstring[2],
+                                    user_verified: false,
+                                }
+
+                                const storeData = async (value) => {
+                                    try {
+                                        const jsonValue = JSON.stringify(value)
+                                        await AsyncStorage.setItem('userData', jsonValue)
+                                        navigation.replace('Verify');
+                                    } catch (e) {
+                                        Alert.alert("Data not stored in LocalStorage!! please uninstall and again install thr App")
+                                    }
+                                }
+
+                                storeData(userOjbect);
+                            }
                             else {
+                                console.log(response.data);
                                 Snackbar.show({
                                     text: "Your UserId or Password is incorrect!!",
                                     duration: Snackbar.LENGTH_LONG,

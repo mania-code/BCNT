@@ -50,7 +50,7 @@ const SignUp = ({navigation, theme}) => {
               }
             })
             .catch(error => {
-              Alert.alert('Server Error -', 'Sponsor -' +  error.message);
+              Alert.alert('Server Error -', 'Sponsor -' + error.message);
             });
         }
       } catch (e) {
@@ -180,15 +180,13 @@ const SignUp = ({navigation, theme}) => {
           backgroundColor: colors.secondary,
           textColor: '#FFF',
         });
-      }else if(spname == 'User Not Found')
-      {
+      } else if (spname == 'User Not Found') {
         Snackbar.show({
           text: 'Sponsor Id is not valid',
           duration: Snackbar.LENGTH_LONG,
           backgroundColor: colors.secondary,
           textColor: '#FFF',
         });
-
       } else if (userId.indexOf(' ') >= 0) {
         Snackbar.show({
           text: 'User Id should not contain Space',
@@ -255,7 +253,6 @@ const SignUp = ({navigation, theme}) => {
                   textColor: '#fff',
                 });
               } else {
-                console.log('check -> ' + rstring.result);
                 Alert.alert('Failure', rstring);
               }
             })
@@ -345,7 +342,10 @@ const SignUp = ({navigation, theme}) => {
                       }
                     })
                     .catch(error => {
-                      Alert.alert('Server Error -', 'Sponsor -' + error.message);
+                      Alert.alert(
+                        'Server Error -',
+                        'Sponsor -' + error.message,
+                      );
                     });
                 }}
                 value={referal}></TextInput>
@@ -448,9 +448,7 @@ const SignUp = ({navigation, theme}) => {
                 selectedValue={stateCode}
                 onValueChange={x => {
                   setStateCode(x);
-                }}
-               
-              >
+                }}>
                 <Picker.Item label="Select State" value={null} />
                 {stalist.map((item, index) => {
                   return (
@@ -500,7 +498,10 @@ const SignUp = ({navigation, theme}) => {
                       setuidAval('This user id is ' + response.data);
                     })
                     .catch(error => {
-                      Alert.alert('Server Error -', 'user id -' +  error.message);
+                      Alert.alert(
+                        'Server Error -',
+                        'user id -' + error.message,
+                      );
                     });
                 }}
                 value={userId}></TextInput>
