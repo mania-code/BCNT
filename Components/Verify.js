@@ -107,7 +107,7 @@ export default function Verify({navigation}) {
     } else {
       await axios
         .get(
-          'https://gheeson.in/bcnt/php_scripts/V11/verify_mail.php?userid=' +
+          'https://gheeson.in/bcnt/php_scripts/V13/verify_mail.php?userid=' +
             userId +
             '&otp=' +
             otp +

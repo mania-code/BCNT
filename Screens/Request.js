@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Alert} from 'react-native';
+import {View, Text, Alert, ScrollView, StyleSheet, Linking} from 'react-native';
 import {BackTitalBar} from '../my components/TitalBar';
 import {
   Card,
@@ -24,6 +24,7 @@ import Snackbar from 'react-native-snackbar';
 // var TokenAdd = '';
 
 const Request = ({navigation, theme}) => {
+  
   const [Amount, setAmount] = useState('');
   let nonStateId;
   const [TokenAdd, setTokenAdd] = useState('');
@@ -32,7 +33,18 @@ const Request = ({navigation, theme}) => {
   const [loading, setLoad] = useState(true);
   const [currAdd, setcurrAdd] = useState('');
   const [editables, seteditable] = useState(true);
+  const [isOld, setisOld] = useState(false)
   const {colors} = theme;
+
+  const [socialState, setsocialState] = useState([false,false,false,false])
+  const [twitter, settwitter] = useState(0);
+  const [instag, setinstag] = useState(0);
+  const [teleg, setteleg] = useState(0);
+  const [ytu, setytu] = useState(0);
+  const tweet = 'https://twitter.com/BcntGlobal?s=08';
+  const insta = 'https://www.instagram.com/bcnt.global/';
+  const tele = 'https://t.me/bcnt_global';
+  const youtube = 'https://www.youtube.com/channel/UCPHrm8lgOteAF-ABFJXvA_w';
 
   useEffect(() => {
     let cleanV = true;
@@ -44,6 +56,28 @@ const Request = ({navigation, theme}) => {
     return (cleanV = false);
   }, []);
 
+
+  const check_old = async () => {
+
+    await axios.get('https://gheeson.in/bcnt/php_scripts/V13/old_vfy/is_old.php?userId=' + nonStateId)
+    .then((response) => {
+
+      if (response.data == "IS OLD") {
+        
+        setisOld(true);
+
+      }
+      else
+      {
+        console.log(response.data);
+      }
+
+    }).catch((error) => {
+      Alert.alert("Network Issue" , error.message);
+    })
+
+  }
+
   const fillData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem('userData');
@@ -54,8 +88,29 @@ const Request = ({navigation, theme}) => {
       Alert.alert('An error has occurred', e);
     }
 
+    check_old();
     FeatchData();
   };
+
+  const checkAll = async () => {
+
+    if (twitter == 1 && instag == 1 && teleg == 1 && ytu == 1) {
+      
+      await axios.get('https://gheeson.in/bcnt/php_scripts/V13/old_vfy/remove.php?userId=' + id)
+    .then((response => {
+      console.log(response.data + " sucess");
+      setisOld(false);
+    }))
+    .catch((err) => {
+      console.log(err.message);
+    })
+
+    }
+    else
+    {
+      Alert.alert("Follw us to continue", "You need to visit our Social handles once to continue further");
+    }
+  }
 
   const FeatchData = async () => {
     await axios
@@ -207,63 +262,159 @@ const Request = ({navigation, theme}) => {
     );
   }
 
-  return (
-    <View style={{flex: 1}}>
-      <BackTitalBar name="Withdrawal" nav={navigation} />
-      <View style={{marginTop: 20, width: '95%', alignSelf: 'center'}}>
-        <Card style={{marginBottom: 20}}>
-          <Card.Title title={'Available Coins - ' + avlCoin} />
-        </Card>
-        <Card>
-          <Card.Title title="Withdrawal Request" />
-          <Card.Content>
-            <Text> {currAdd != 'noAddress' && 'Saved -' + currAdd} </Text>
-            <TextInput
-              label="Wallet Address"
-              maxLength={34}
-              // value={currAdd != 'noAddress' && currAdd}
-              mode="outlined"
-              editable={editables}
-              onChangeText={x => {
-                // setcurrAdd(x)
-                setTokenAdd(x);
-                // TokenAdd = x;
-              }}
-            />
-            <TextInput
-              label="Amount"
-              mode="outlined"
-              onChangeText={amount => {
-                // Amounta = amount;
-                setAmount(amount);
-              }}
-            />
-          </Card.Content>
-          <Card.Actions>
-            <Button
-              style={{width: '40%', marginTop: 10}}
-              mode="outlined"
-              // onPress={() => sendRequest(TokenAdd, Amount)}>
-              onPress={() => validate(TokenAdd, Amount)}>
-              <Text style={{fontSize: mlText}}>Submit</Text>
-            </Button>
-          </Card.Actions>
-        </Card>
-        <Text
-          style={{fontSize: xsmallText, color: colors.secondary, marginTop: 5}}>
-          *The amount should be in multiple of 500
-        </Text>
-        <Text
-          style={{fontSize: xsmallText, color: colors.secondary, marginTop: 5}}>
-          15% Tranction Fee will be deducted. You will get {Amount * 0.85}
-        </Text>
-        <Text
-          style={{fontSize: xsmallText, color: colors.secondary, marginTop: 5}}>
-          **Update only BCNT address, Otherwise your coin will lost.**
-        </Text>
-      </View>
-    </View>
+  if(isOld)
+  {
+    return(
+      <ScrollView>
+      <Text
+        style={{
+          fontSize: xlargeText,
+          fontWeight: 'bold',
+          alignSelf: 'center',
+          color: '#008DCF',
+        }}>
+        Follow us to continue
+      </Text>
+      <Card style={{margin: 10}}>
+        <Card.Content>
+          <Button
+            disabled={twitter}
+            icon="twitter"
+            mode="contained"
+            style={styles.mediaBtn}
+            onPress={() => {
+              Linking.openURL(tweet);
+              settwitter(1);
+            }}
+            >
+            Follow on Twitter
+          </Button>
+
+          <Button
+            disabled={teleg}
+            icon="telegram"
+            mode="contained"
+            style={[styles.mediaBtn, {backgroundColor: '#0396de'}]}
+            onPress={() => {
+              Linking.openURL(tele);
+              setteleg(1);
+            }}>
+            Join Telegram Channel
+          </Button>
+
+          <Button
+            disabled={instag}
+            icon="instagram"
+            mode="contained"
+            style={[styles.mediaBtn, {backgroundColor: '#e8426c'}]}
+            onPress={() => {
+              Linking.openURL(insta);
+              setinstag(1);
+            }}>
+            Follow on Intagram
+          </Button>
+
+          <Button
+            disabled={ytu}
+            icon="youtube"
+            mode="contained"
+            style={[styles.mediaBtn, {backgroundColor: '#c31e1d'}]}
+            onPress={() => {
+              Linking.openURL(youtube);
+              setytu(1);
+            }}>
+            Subscribe to Channel
+          </Button>
+
+          <Button
+            mode="outlined"
+            onPress={() => {
+              checkAll()
+            }}>
+            Continue to Withdrawal
+          </Button>
+
+        </Card.Content>
+      </Card>
+
+    </ScrollView>
   );
+  }
+  else{
+
+    return (
+      <View style={{flex: 1}}>
+        <BackTitalBar name="Withdrawal" nav={navigation} />
+        <View style={{marginTop: 20, width: '95%', alignSelf: 'center'}}>
+          <Card style={{marginBottom: 20}}>
+            <Card.Title title={'Available Coins - ' + avlCoin} />
+          </Card>
+          <Card>
+            <Card.Title title="Withdrawal Request" />
+            <Card.Content>
+              <Text> {currAdd != 'noAddress' && 'Saved -' + currAdd} </Text>
+              <TextInput
+                label="Wallet Address"
+                maxLength={34}
+                // value={currAdd != 'noAddress' && currAdd}
+                mode="outlined"
+                editable={editables}
+                onChangeText={x => {
+                  // setcurrAdd(x)
+                  setTokenAdd(x);
+                  // TokenAdd = x;
+                }}
+              />
+              <TextInput
+                label="Amount"
+                mode="outlined"
+                onChangeText={amount => {
+                  // Amounta = amount;
+                  setAmount(amount);
+                }}
+              />
+            </Card.Content>
+            <Card.Actions>
+              <Button
+                style={{width: '40%', marginTop: 10}}
+                mode="outlined"
+                // onPress={() => sendRequest(TokenAdd, Amount)}>
+                onPress={() => validate(TokenAdd, Amount)}>
+                <Text style={{fontSize: mlText}}>Submit</Text>
+              </Button>
+            </Card.Actions>
+          </Card>
+          <Text
+            style={{fontSize: xsmallText, color: colors.secondary, marginTop: 5}}>
+            *The amount should be in multiple of 500
+          </Text>
+          <Text
+            style={{fontSize: xsmallText, color: colors.secondary, marginTop: 5}}>
+            15% Tranction Fee will be deducted. You will get {Amount * 0.85}
+          </Text>
+          <Text
+            style={{fontSize: xsmallText, color: colors.secondary, marginTop: 5}}>
+            **Update only BCNT address, Otherwise your coin will lost.**
+          </Text>
+        </View>
+      </View>
+    );
+
+  }
 };
+
+
+const styles = StyleSheet.create({
+  mediaBtn: {
+    marginVertical: 10,
+  },
+  bottomView:
+  {
+    // backgroundColor:'#ccc',
+    margin:10,
+    // marginTop:50,
+    // padding: 5,
+  }
+});
 
 export default withTheme(Request);

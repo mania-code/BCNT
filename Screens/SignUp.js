@@ -91,6 +91,16 @@ const SignUp = ({navigation, theme}) => {
     // let boola = expression.test(String(email).toLowerCase())
   };
 
+  const isGmail = (email) => {
+    if (email.slice(-10) == "@gmail.com" || email.slice(-10) == "GMAIL.COM" || email.slice(-10) == "Gmail.com") {
+       return true;
+    }
+    else {
+      alert("Your email should be valid gmail")
+      return false;
+    }
+  }
+
   const phoneValidate = inputtxt => {
     var phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
     if (!isNaN(inputtxt)) {
@@ -103,13 +113,26 @@ const SignUp = ({navigation, theme}) => {
 
   const userIdValidate = userIdx => {
     var phoneno = /^[a-zA-Z0-9_.-]*$/;
-    if (userIdx.match(phoneno)) {
+     if (userIdx.match(phoneno)) {
       return true;
-    } else {
-      alert('Please! Enter a Valid Email userId');
+    }
+    else {
+      alert('Please! Enter a Valid userId');
       return false;
     }
   };
+
+  const userIdMin = uid => {
+    if (uid.length >= 6)
+    {
+      return true;
+    }
+    else
+    {
+      alert('User Id must be at least 6 characters')
+      return false;
+    }
+  }
 
   const validate = () => {
     if (
@@ -128,8 +151,10 @@ const SignUp = ({navigation, theme}) => {
       countryCode == null ||
       password != cpassword ||
       !validate2(email) ||
+      !isGmail(email) ||
       !phoneValidate(mobile) ||
-      !userIdValidate(userId)
+      !userIdValidate(userId) ||
+      !userIdMin(userId) 
     ) {
       if (password != cpassword) {
         Snackbar.show({
@@ -159,14 +184,34 @@ const SignUp = ({navigation, theme}) => {
           backgroundColor: colors.secondary,
           textColor: '#FFF',
         });
-      } else if (!validate2(email)) {
+      }
+      else if(!userIdMin(email))
+      {
+        Snackbar.show({
+          text: 'UserId shoud be minimum 6 letters',
+          duration: Snackbar.LENGTH_LONG,
+          backgroundColor: colors.secondary,
+          textColor: '#FFF',
+        });
+      } 
+      else if (!validate2(email)) {
         Snackbar.show({
           text: 'Please! Enter a Valid Email Address',
           duration: Snackbar.LENGTH_LONG,
           backgroundColor: colors.secondary,
           textColor: '#FFF',
         });
-      } else if (!phoneValidate(mobile)) {
+      }
+      else if(!isGmail(email))
+      {
+        Snackbar.show({
+          text: 'Your Email should be gmail only',
+          duration: Snackbar.LENGTH_LONG,
+          backgroundColor: colors.secondary,
+          textColor: '#FFF',
+        });
+      }
+      else if (!phoneValidate(mobile)) {
         Snackbar.show({
           text: 'Please! Enter a Valid Mobile Number',
           duration: Snackbar.LENGTH_LONG,
@@ -247,7 +292,7 @@ const SignUp = ({navigation, theme}) => {
                 // navigation.replace('Drower');
                 navigation.replace('Verify');
                 Snackbar.show({
-                  text: 'Verify your mail' + name,
+                  text: 'Verify your mail ' + name,
                   backgroundColor: colors.primary,
                   duration: Snackbar.LENGTH_LONG,
                   textColor: '#fff',
@@ -468,14 +513,14 @@ const SignUp = ({navigation, theme}) => {
               <Text style={styles.labelText}>
                 {' '}
                 <Icon name="id-card" size={18} color="#fff" /> Create your own
-                UserId - 10 letters only*
+                UserId 6 to 10 letters only*
               </Text>
               <TextInput
                 style={[
                   styles.inputText,
                   {borderWidth: 2, borderColor: uidBorder},
                 ]}
-                placeholder=" Enter UserID 10 letters only*"
+                placeholder=" Enter UserID 6 to 10 letters only*"
                 placeholderTextColor="#777"
                 maxLength={10}
                 textContentType="organizationName"

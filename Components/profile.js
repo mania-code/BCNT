@@ -12,6 +12,7 @@ import {
 } from '../Components/Responsive';
 
 export default function Profile(props) {
+  console.log('thhh - ' + props.joinDate);
   return (
     <View style={styles.mainView}>
       {/* <Badge size={30} >2</Badge> */}
@@ -35,15 +36,18 @@ export default function Profile(props) {
 
         <Avatar.Icon icon="certificate" size={xlargeText} />
         <Text style={{fontWeight: 'bold', color:'#008DCF',fontSize:midText}}>{props.badge}</Text>
-      </View>
+      </View> 
       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
         <View style={styles.textBox}>
           <Text>User ID - {props.id}</Text>
           <Text>Name - {props.name} </Text>
+          <Text>Sponsor name - {props.spname}</Text>
+          <Text>Joining - {props.joinDate}</Text>
         </View>
         <View style={styles.textBox}>
           <Text>Mobile - {props.mobile} </Text>
           <Text>Email - {props.email}</Text>
+          <Text>Sp Mobile - {props.spmob}</Text>
         </View>
       </View>
     </View>

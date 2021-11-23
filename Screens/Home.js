@@ -31,6 +31,9 @@ const Home = ({navigation}) => {
   const [avlCoin, setavlCoin] = useState('000');
   const [withdrawed, setwithdrawed] = useState('000');
   const [badge, setbadge] = useState('XXX');
+  const [spName, setspName] = useState("XXXX")
+  const [spMob, setspMob] = useState("XXX-XXX-XXX")
+  const [joinDate, setjoinDate] = useState("XXXX-XX-XX")
 
   // useEffect(() => { fillData() });
 
@@ -60,33 +63,11 @@ const Home = ({navigation}) => {
     }, []),
   );
 
-  // const fillData = async () => {
-  //   let cleanV = true;
-
-  // try {
-  //   const jsonValue = await AsyncStorage.getItem('userData');
-  //   const c = JSON.parse(jsonValue);
-  //   if (cleanV) {
-  //     setId(c.user_id);
-  //   }
-  //   nonStateId = c.user_id;
-  // } catch (e) {
-  //   Alert.alert('An error has occurred', e);
-  // }
-
-  //   if (cleanV) {
-  //     FeatchData();
-  //   }
-
-  //   return () => {
-  //     cleanV = false;
-  //   };
-  // };
 
   const FeatchData = async nonStateId => {
     await axios
       .get(
-        'https://gheeson.in/bcnt/php_scripts/general.php?userId=' +
+        'https://gheeson.in/bcnt/php_scripts/V13/general.php?userId=' +
           nonStateId,
       )
       .then(function (response) {
@@ -99,6 +80,12 @@ const Home = ({navigation}) => {
         setcurrentPrice(rarr[4]);
         setavlCoin(rarr[5]);
         setbadge(rarr[7]);
+        setjoinDate(rarr[9]);
+        setspName(rarr[10]);
+        setspMob(rarr[11]);
+
+        console.log(rarr[9]);
+
         if (rarr[6] == null) {
           setwithdrawed('000');
         } else {
@@ -114,7 +101,7 @@ const Home = ({navigation}) => {
         console.log(error);
       })
       .then(function () {
-        //
+        console.log("here si "+joinDate);
       });
   };
 
@@ -131,6 +118,9 @@ const Home = ({navigation}) => {
             mobile={mobile}
             email={email}
             badge={badge}
+            spname={spName}
+            spmob={spMob}
+            joinDate={joinDate}
           />
           <Bigbox
             currentPrice={currentPrice}

@@ -14,6 +14,7 @@ import LevelTeam from './Components/LevelTeam';
 import Verify from './Components/Verify';
 import Request from './Screens/Request';
 import RefferEarn from './Components/RefferEarn';
+import ResetPass from './Screens/ResetPass';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -117,6 +118,7 @@ export default function App() {
             <Stack.Screen name="Request" component={Request} />
             <Stack.Screen name="Verify" component={Verify} />
             <Stack.Screen name="RefferEarn" component={RefferEarn} />
+            <Stack.Screen name="ResetPass" component={ResetPass} />
           </Stack.Navigator>
         </NavigationContainer>
   )

@@ -170,6 +170,7 @@ const LogInScreen = ({ navigation, theme }) => {
                             </TouchableOpacity>
                             <Text style={styles.forgot}>Login if you are alredy Registred</Text>
                             <Text style={styles.forgot}>Click Sign Up to create a new account</Text> 
+                            <Text style={styles.forgot2} onPress={() => navigation.navigate('ResetPass')}> Reset password?</Text>
                         </View>
                     </View>
             }
@@ -199,6 +200,11 @@ const styles = StyleSheet.create({
     forgot: {
         color: "white",
         fontSize: 11
+    },
+    forgot2: {
+        color: "tomato",
+        fontSize: 15,
+        marginTop: 10
     },
     loginBtn: {
         width: "80%",
