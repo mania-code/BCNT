@@ -36,7 +36,7 @@ const RefferEarn = ({ navigation }) => {
             
             const obj = {
                 // url: message,
-                message: link + '\n\nUse my referral code - "'+  user_Id +'" to get 100 BCNT Coins absolutely free , checkout this awsome application to earn crypto income', 
+                message: link + '\n\nUse my referral code - "'+  user_Id +'" to get 10 BCNT Coins absolutely free , checkout this awsome application to earn crypto income', 
             }
     
             Share.open(obj)
